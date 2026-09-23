@@ -9,13 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ScrollView(.vertical) {
+            HabitCardView(habit: "cigarettes", habitId: UUID())
         }
         .padding()
+        .overlay(alignment: .bottomTrailing) {
+            Button {
+                print("create new habit")
+            } label: {
+                Image(systemName: "plus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 16)
+                    .foregroundStyle(.black)
+                    .padding()
+                    .background(
+                        Circle()
+                            .fill(Color.white)
+                            .shadow(radius: 3)
+                    )
+            }
+            .padding()
+        }
     }
 }
 
