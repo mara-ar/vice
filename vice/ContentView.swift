@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var presentCreateHabitSheet: Bool = false
+
     var body: some View {
         ScrollView(.vertical) {
             HabitCardView(habit: "cigarettes", habitId: UUID())
@@ -16,6 +18,7 @@ struct ContentView: View {
         .overlay(alignment: .bottomTrailing) {
             Button {
                 print("create new habit")
+                presentCreateHabitSheet = true
             } label: {
                 Image(systemName: "plus")
                     .resizable()
@@ -30,6 +33,9 @@ struct ContentView: View {
                     )
             }
             .padding()
+        }
+        .sheet(isPresented: $presentCreateHabitSheet) {
+            CreateHabitView()
         }
     }
 }
