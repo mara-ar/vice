@@ -2,66 +2,72 @@ import SwiftUI
 
 struct CreateHabitView: View {
     @State private var habitName: String = ""
-    @State private var reminders: [(String, Bool)] = [("5:00 PM", true), ("6:00 PM", false)]
+    @State private var reminders: [Reminder] = [
+        Reminder(time: "5:00 PM", isActive: true),
+        Reminder(time: "6:00 PM", isActive: false),
+    ]
 
     var body: some View {
-        Form {
-            Section {
-                TextField("Enter habit", text: $habitName)
-            } header: {
-                Text("Habit")
-                    .padding(.top)
-            }
+        VStack {
+            Form {
+                Section {
+                    TextField("Enter habit", text: $habitName)
+                } header: {
+                    Text("Habit")
+                        .padding(.top, 10)
+                }
 
-            Section {
-                List {
-                    ForEach(reminders, id: \.0) { time, isActive in
-                        HStack {
-                            Text(time)
-                            Spacer()
-                            if isActive {
-                                Image(systemName: "circle.fill")
-                            } else {
-                                Image(systemName: "circle")
+                // TODO: motivation
+
+                Section {
+                    if reminders.isEmpty {
+                        ContentUnavailableView {
+                            Label("No reminders", systemImage: "alarm")
+                        } description: {
+                            Text("Add a time to remind yourself of your motivation to quit.")
+                        }
+                    } else {
+                        List {
+                            ForEach(reminders) { r in
+                                HStack {
+                                    Text(r.time)
+                                    Spacer()
+                                    r.isActive
+                                        ? Image(systemName: "circle.fill")
+                                        : Image(systemName: "circle")
+                                }
                             }
+                            .onDelete(perform: deleteItem)
                         }
                     }
-                    .onDelete(perform: deleteReminder)
-                }
-            } header: {
-                Text("Reminders")
-            } footer: {
-                HStack {
-                    Spacer()
-                    Button {
-                        print("clicked")
-                    } label: {
-                        Text("Add reminder")
+                } header: {
+                    HStack {
+                        Text("Reminders")
+                        Spacer()
+                        Button {
+                            print("add new reminder")
+                            reminders.append(Reminder(time: "5:00 PM", isActive: false))
+                        } label: {
+                            Text("Add reminder")
+                        }
+                        .buttonStyle(.borderless)
                     }
-                    .padding(.top, 5)
                 }
-            }
-
-            Section {
-                // TODO: photos and video picker
-            } header: {
-                Text("Motivation")
             }
 
             Button {
-                print("create \(habitName)")
+                print("create habit")
             } label: {
-                HStack {
-                    Spacer()
-                    Text("Create habit")
-                        .bold()
-                    Spacer()
-                }
+                Text("Create habit")
+                    .bold()
+                    .foregroundStyle(.green)
             }
+            .buttonStyle(.plain)
+            .padding()
         }
     }
 
-    private func deleteReminder(at offsets: IndexSet) {
+    func deleteItem(at offsets: IndexSet) {
         reminders.remove(atOffsets: offsets)
     }
 }
