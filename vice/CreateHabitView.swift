@@ -1,11 +1,12 @@
+import AVKit
+import PhotosUI
 import SwiftUI
 
 struct CreateHabitView: View {
     @State private var habitName: String = ""
-    @State private var reminders: [Reminder] = [
-        Reminder(time: "5:00 PM", isActive: true),
-        Reminder(time: "6:00 PM", isActive: false),
-    ]
+    @State private var selectedVideo: PhotosPickerItem? = nil
+    @State private var videoURL: URL? = nil
+    @State private var reminders: [Reminder] = []
 
     var body: some View {
         VStack {
@@ -17,7 +18,27 @@ struct CreateHabitView: View {
                         .padding(.top, 10)
                 }
 
-                // TODO: motivation
+                Section {
+                    if let videoURL {
+                        VideoPlayer(player: AVPlayer(url: videoURL))
+                            .allowsHitTesting(false)
+                            .frame(height: 200)
+                    } else {
+                        ContentUnavailableView {
+                            Label("No video", systemImage: "video")
+                        } description: {
+                            Text("Select a video to remind yourself of your why")
+                        }
+                    }
+                } header: {
+                    HStack {
+                        Text("Motivation")
+                        Spacer()
+                        PhotosPicker(selection: $selectedVideo, matching: .videos) {
+                            Text("Choose motivation")
+                        }
+                    }
+                }
 
                 Section {
                     if reminders.isEmpty {
@@ -65,9 +86,37 @@ struct CreateHabitView: View {
             .buttonStyle(.plain)
             .padding()
         }
+        .onChange(of: selectedVideo) {
+            if let selectedVideo {
+                Task {
+                    let movie = try? await selectedVideo.loadTransferable(type: Movie.self)
+                    if let movie {
+                        videoURL = movie.url
+                    } else {
+                        print("unsuccessful")
+                    }
+                }
+            }
+        }
     }
 
     func deleteItem(at offsets: IndexSet) {
         reminders.remove(atOffsets: offsets)
+    }
+}
+
+struct Movie: Transferable {
+    let url: URL
+    static var transferRepresentation: some TransferRepresentation {
+        print("got here")
+        return FileRepresentation(contentType: .movie) { (movie: Movie) in
+            return SentTransferredFile(movie.url)
+        } importing: { received in
+            let copy = FileManager.default.temporaryDirectory
+                .appendingPathComponent(UUID().uuidString)
+                .appendingPathExtension(received.file.pathExtension)
+            try FileManager.default.copyItem(at: received.file, to: copy)
+            return Self(url: copy)
+        }
     }
 }
