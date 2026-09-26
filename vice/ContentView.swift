@@ -9,15 +9,19 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
     @Query() var allHabits: [Habit]
     @State private var presentCreateHabitSheet: Bool = false
 
     var body: some View {
-        ScrollView(.vertical) {
+        List {
             ForEach(allHabits, id: \.id) { habit in
                 HabitCardView(habit: habit)
+                    .listRowInsets(nil)
             }
+            .onDelete(perform: deleteItem)
         }
+        .listStyle(.plain)
         .padding()
         .overlay(alignment: .bottomTrailing) {
             Button {
@@ -40,6 +44,13 @@ struct ContentView: View {
         }
         .sheet(isPresented: $presentCreateHabitSheet) {
             CreateHabitView(isPresenting: $presentCreateHabitSheet)
+        }
+    }
+
+    func deleteItem(at offsets: IndexSet) {
+        for index in offsets {
+            let item = allHabits[index]
+            modelContext.delete(item)
         }
     }
 }

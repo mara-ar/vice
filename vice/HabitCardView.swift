@@ -17,12 +17,6 @@ struct HabitCardView: View {
         } label: {
             Text(habit.habit)
                 .foregroundStyle(.black)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(.black)
-                )
         }
         .padding(1)
     }

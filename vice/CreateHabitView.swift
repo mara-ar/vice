@@ -96,9 +96,12 @@ struct CreateHabitView: View {
                             id: UUID(), habit: habitName, motivation: videoURL, reminders: reminders
                         )
 
-                        modelContext.insert(habit)
+                        Task {
+                            modelContext.insert(habit)
+                            try modelContext.save()
+                            isPresenting = false
+                        }
 
-                        isPresenting = false
                     }
                 } label: {
                     Text("Create habit")
