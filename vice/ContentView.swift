@@ -17,7 +17,7 @@ struct ContentView: View {
         List {
             ForEach(allHabits, id: \.id) { habit in
                 HabitCardView(habit: habit)
-                    .listRowInsets(nil)
+                    .listRowInsets(.horizontal, 0)
             }
             .onDelete(perform: deleteItem)
         }
