@@ -5,14 +5,18 @@
 //  Created by Abhinav Mara on 9/22/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @Query() var allHabits: [Habit]
     @State private var presentCreateHabitSheet: Bool = false
 
     var body: some View {
         ScrollView(.vertical) {
-            HabitCardView(habit: "cigarettes", habitId: UUID())
+            ForEach(allHabits, id: \.id) { habit in
+                HabitCardView(habit: habit)
+            }
         }
         .padding()
         .overlay(alignment: .bottomTrailing) {
@@ -35,7 +39,7 @@ struct ContentView: View {
             .padding()
         }
         .sheet(isPresented: $presentCreateHabitSheet) {
-            CreateHabitView()
+            CreateHabitView(isPresenting: $presentCreateHabitSheet)
         }
     }
 }

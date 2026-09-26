@@ -14,7 +14,7 @@ struct CreateReminderView: View {
                     let hour = Calendar.current.component(.hour, from: date)
                     let minute = Calendar.current.component(.minute, from: date)
                     reminders.append(
-                        Reminder(id: UUID(), hour: hour, minute: minute, isActive: false))
+                        Reminder(hour: hour, minute: minute, isActive: true))
                     reminders = reminders.sorted {
                         if $0.hour == $1.hour {
                             return $0.minute < $1.minute

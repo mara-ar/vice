@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct HabitCardView: View {
-    var habit: String
-    var habitId: UUID
-    
+    var habit: Habit
+
     var body: some View {
         Button {
-            print("tapped \(habit): \(habitId)")
+            print("tapped \(habit.habit): \(habit.id)")
+            print(habit)
         } label: {
-            Text("cigarettes")
+            Text(habit.habit)
                 .foregroundStyle(.black)
                 .padding()
                 .frame(maxWidth: .infinity)

@@ -1,8 +1,13 @@
 import AVKit
 import PhotosUI
+import SwiftData
 import SwiftUI
 
 struct CreateHabitView: View {
+    @Environment(\.modelContext) private var modelContext
+
+    @Binding var isPresenting: Bool
+
     @State private var habitName: String = ""
     @State private var selectedVideo: PhotosPickerItem? = nil
     @State private var videoURL: URL? = nil
@@ -91,7 +96,9 @@ struct CreateHabitView: View {
                             id: UUID(), habit: habitName, motivation: videoURL, reminders: reminders
                         )
 
-                        print(habit)
+                        modelContext.insert(habit)
+
+                        isPresenting = false
                     }
                 } label: {
                     Text("Create habit")
