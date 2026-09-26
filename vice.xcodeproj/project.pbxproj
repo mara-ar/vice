@@ -29,11 +29,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B10735F3D46711E20FAD45B5 /* vice */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = vice;
+			path = vice;
+			sourceTree = "<group>";
+		};
 		EF98EBEC30637FD9001AB98A = {
 			isa = PBXGroup;
 			children = (
 				EF98EBF730637FD9001AB98A /* vice */,
 				EF98EBF630637FD9001AB98A /* Products */,
+				B10735F3D46711E20FAD45B5 /* vice */,
 			);
 			sourceTree = "<group>";
 		};

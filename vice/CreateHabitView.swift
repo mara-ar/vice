@@ -101,7 +101,7 @@ struct CreateHabitView: View {
             }
         }
         .sheet(isPresented: $showCreateReminderSheet) {
-            CreateReminderView(reminder: $createReminder, isPresenting: $showCreateReminderSheet)
+            CreateReminderView(reminders: $reminders, isPresenting: $showCreateReminderSheet)
                 .presentationDetents([.medium])
         }
     }
