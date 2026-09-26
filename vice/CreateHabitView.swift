@@ -53,7 +53,7 @@ struct CreateHabitView: View {
                         List {
                             ForEach($reminders) { $r in
                                 HStack {
-                                    Text("\(r.hour):\(r.minute)")
+                                    Text("\(r.hour):\(parseMinuteComponent(value: r.minute))")
                                     Spacer()
                                     r.isActive
                                         ? Image(systemName: "circle.fill")
@@ -112,6 +112,13 @@ struct CreateHabitView: View {
 
     func deleteItem(at offsets: IndexSet) {
         reminders.remove(atOffsets: offsets)
+    }
+
+    func parseMinuteComponent(value: Int) -> String {
+        if value < 10 {
+            return "0\(value)"
+        }
+        return "\(value)"
     }
 }
 
