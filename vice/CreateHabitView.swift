@@ -51,7 +51,7 @@ struct CreateHabitView: View {
                         }
                     } else {
                         List {
-                            ForEach(reminders) { r in
+                            ForEach($reminders) { $r in
                                 HStack {
                                     Text("\(r.hour):\(r.minute)")
                                     Spacer()
@@ -59,6 +59,10 @@ struct CreateHabitView: View {
                                         ? Image(systemName: "circle.fill")
                                         : Image(systemName: "circle")
                                 }
+                                .onTapGesture {
+                                    r.isActive.toggle()
+                                }
+
                             }
                             .onDelete(perform: deleteItem)
                         }
