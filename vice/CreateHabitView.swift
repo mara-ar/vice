@@ -82,15 +82,22 @@ struct CreateHabitView: View {
                 }
             }
 
-            Button {
-                print("create habit")
-            } label: {
-                Text("Create habit")
-                    .bold()
-                    .foregroundStyle(.green)
+            ZStack {
+                Button {
+                    print("create habit")
+                } label: {
+                    Text("Create habit")
+                        .bold()
+                        .foregroundStyle(.green)
+                }
+                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+                .background(
+                    Rectangle()
+                        .fill(.white)
+                )
             }
-            .buttonStyle(.plain)
-            .padding()
         }
         .onChange(of: selectedVideo) {
             if let selectedVideo {
