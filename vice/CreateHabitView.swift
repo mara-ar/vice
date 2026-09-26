@@ -7,6 +7,8 @@ struct CreateHabitView: View {
     @State private var selectedVideo: PhotosPickerItem? = nil
     @State private var videoURL: URL? = nil
     @State private var reminders: [Reminder] = []
+    @State private var createReminder: Reminder? = nil
+    @State private var showCreateReminderSheet: Bool = false
 
     var body: some View {
         VStack {
@@ -51,7 +53,7 @@ struct CreateHabitView: View {
                         List {
                             ForEach(reminders) { r in
                                 HStack {
-                                    Text(r.time)
+                                    Text("\(r.hour):\(r.minute)")
                                     Spacer()
                                     r.isActive
                                         ? Image(systemName: "circle.fill")
@@ -67,7 +69,7 @@ struct CreateHabitView: View {
                         Spacer()
                         Button {
                             print("add new reminder")
-                            reminders.append(Reminder(time: "5:00 PM", isActive: false))
+                            showCreateReminderSheet = true
                         } label: {
                             Text("Add reminder")
                         }
@@ -97,6 +99,10 @@ struct CreateHabitView: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showCreateReminderSheet) {
+            CreateReminderView(reminder: $createReminder, isPresenting: $showCreateReminderSheet)
+                .presentationDetents([.medium])
         }
     }
 
