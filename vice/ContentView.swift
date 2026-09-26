@@ -17,7 +17,6 @@ struct ContentView: View {
         List {
             ForEach(allHabits, id: \.id) { habit in
                 HabitCardView(habit: habit)
-                    .listRowInsets(.horizontal, 0)
             }
             .onDelete(perform: deleteItem)
         }
@@ -32,12 +31,12 @@ struct ContentView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 16)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.white)
                     .padding()
                     .background(
                         Circle()
-                            .fill(Color.white)
-                            .shadow(radius: 3)
+                            .fill(Color.black)
+                            .shadow(color: Color.black.opacity(0.5), radius: 12)
                     )
             }
             .padding()
