@@ -53,7 +53,9 @@ struct CreateHabitView: View {
                         List {
                             ForEach($reminders) { $r in
                                 HStack {
-                                    Text("\(r.hour):\(parseMinuteComponent(value: r.minute))")
+                                    Text(
+                                        "\(parseTimeComponent(value: r.hour)):\(parseTimeComponent(value: r.minute))"
+                                    )
                                     Spacer()
                                     r.isActive
                                         ? Image(systemName: "circle.fill")
@@ -84,7 +86,13 @@ struct CreateHabitView: View {
 
             ZStack {
                 Button {
-                    print("create habit")
+                    if let videoURL {
+                        let habit = Habit(
+                            id: UUID(), habit: habitName, motivation: videoURL, reminders: reminders
+                        )
+
+                        print(habit)
+                    }
                 } label: {
                     Text("Create habit")
                         .bold()
@@ -121,7 +129,7 @@ struct CreateHabitView: View {
         reminders.remove(atOffsets: offsets)
     }
 
-    func parseMinuteComponent(value: Int) -> String {
+    func parseTimeComponent(value: Int) -> String {
         if value < 10 {
             return "0\(value)"
         }
