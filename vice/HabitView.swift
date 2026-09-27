@@ -8,7 +8,6 @@ struct HabitView: View {
     @Environment(\.dismiss) private var dismiss
 
     var originalHabit: Habit?
-    // var creatingNewHabit: Bool
     var isCreatingNewHabit: Bool {
         originalHabit == nil
     }
@@ -21,10 +20,8 @@ struct HabitView: View {
     @State private var showCreateReminderSheet: Bool = false
 
     init(
-        // creatingNewHabit: Bool,
         originalHabit: Habit? = nil
     ) {
-        // self.creatingNewHabit = creatingNewHabit
         self.originalHabit = originalHabit
         if let unwrappedOriginalHabit = originalHabit {
             self._habitName = State(initialValue: unwrappedOriginalHabit.habit)
@@ -114,8 +111,7 @@ struct HabitView: View {
                             id: UUID(), habit: habitName, motivation: videoURL, reminders: reminders
                         )
 
-                        _  // creatingNewHabit
-                        =
+                        _ =
                             isCreatingNewHabit
                             ? Task {
                                 do {

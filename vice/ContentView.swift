@@ -49,13 +49,9 @@ struct ContentView: View {
             .padding()
         }
         .sheet(isPresented: $presentCreateHabitSheet) {
-            // HabitView(creatingNewHabit: true)
             HabitView()
         }
         .sheet(item: $openHabit) { habit in
-            // HabitView(
-            //     creatingNewHabit: false,
-            //     originalHabit: habit)
             HabitView(originalHabit: habit)
         }
     }
