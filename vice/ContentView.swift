@@ -12,11 +12,18 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query() var allHabits: [Habit]
     @State private var presentCreateHabitSheet: Bool = false
+    @State private var openHabit: Habit? = nil
 
     var body: some View {
         List {
             ForEach(allHabits, id: \.id) { habit in
-                HabitCardView(habit: habit)
+                Button {
+                    Task {
+                        openHabit = habit
+                    }
+                } label: {
+                    HabitCardView(habit: habit)
+                }
             }
             .onDelete(perform: deleteItem)
         }
@@ -42,7 +49,12 @@ struct ContentView: View {
             .padding()
         }
         .sheet(isPresented: $presentCreateHabitSheet) {
-            CreateHabitView(isPresenting: $presentCreateHabitSheet)
+            HabitView(creatingNewHabit: true)
+        }
+        .sheet(item: $openHabit) { habit in
+            HabitView(
+                creatingNewHabit: false,
+                originalHabit: habit)
         }
     }
 
@@ -50,6 +62,7 @@ struct ContentView: View {
         for index in offsets {
             let item = allHabits[index]
             modelContext.delete(item)
+            try? modelContext.save()
         }
     }
 }

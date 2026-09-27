@@ -11,14 +11,9 @@ struct HabitCardView: View {
     var habit: Habit
 
     var body: some View {
-        Button {
-            print("tapped \(habit.habit): \(habit.id)")
-            print(habit)
-        } label: {
-            Text(habit.habit)
-                .foregroundStyle(.black)
-        }
-        .padding(1)
+        Text(habit.habit)
+            .foregroundStyle(.black)
+            .padding(1)
     }
 }
 

@@ -3,10 +3,12 @@ import PhotosUI
 import SwiftData
 import SwiftUI
 
-struct CreateHabitView: View {
+struct HabitView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
 
-    @Binding var isPresenting: Bool
+    var originalHabit: Habit?
+    var creatingNewHabit: Bool
 
     @State private var habitName: String = ""
     @State private var selectedVideo: PhotosPickerItem? = nil
@@ -14,6 +16,19 @@ struct CreateHabitView: View {
     @State private var reminders: [Reminder] = []
     @State private var createReminder: Reminder? = nil
     @State private var showCreateReminderSheet: Bool = false
+
+    init(
+        creatingNewHabit: Bool,
+        originalHabit: Habit? = nil
+    ) {
+        self.creatingNewHabit = creatingNewHabit
+        self.originalHabit = originalHabit
+        if let unwrappedOriginalHabit = originalHabit {
+            self._habitName = State(initialValue: unwrappedOriginalHabit.habit)
+            self._videoURL = State(initialValue: unwrappedOriginalHabit.motivation)
+            self._reminders = State(initialValue: unwrappedOriginalHabit.reminders)
+        }
+    }
 
     var body: some View {
         VStack {
@@ -96,17 +111,35 @@ struct CreateHabitView: View {
                             id: UUID(), habit: habitName, motivation: videoURL, reminders: reminders
                         )
 
-                        Task {
-                            modelContext.insert(habit)
-                            try modelContext.save()
-                            isPresenting = false
-                        }
+                        _ =
+                            creatingNewHabit
+                            ? Task {
+                                do {
+                                    modelContext.insert(habit)
+                                    try modelContext.save()
+                                    dismiss()
+                                } catch {
+                                    print("\(error)")
+                                }
+                            }
+                            : Task {
+                                if let originalHabit {
+                                    originalHabit.habit = habitName
+                                    originalHabit.motivation = videoURL
+                                    originalHabit.reminders = reminders
+                                    dismiss()
+                                }
+                            }
 
                     }
                 } label: {
-                    Text("Create habit")
-                        .bold()
-                        .foregroundStyle(.green)
+                    creatingNewHabit
+                        ? Text("Create habit")
+                            .bold()
+                            .foregroundStyle(.green)
+                        : Text("Update habit")
+                            .bold()
+                            .foregroundStyle(.green)
                 }
                 .buttonStyle(.plain)
                 .frame(maxWidth: .infinity)
