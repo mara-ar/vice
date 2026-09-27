@@ -42,9 +42,15 @@ struct HabitView: View {
 
                 Section {
                     if let videoURL {
-                        VideoPlayer(player: AVPlayer(url: videoURL))
-                            .allowsHitTesting(false)
-                            .frame(height: 200)
+                        VideoPlayer(
+                            player: AVPlayer(
+                                url: URL(
+                                    string:
+                                        "\(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)\(videoURL.absoluteString)"
+                                )!)
+                        )
+                        .allowsHitTesting(false)
+                        .frame(height: 200)
                     } else {
                         ContentUnavailableView {
                             Label("No video", systemImage: "video")
@@ -94,7 +100,6 @@ struct HabitView: View {
                         Text("Reminders")
                         Spacer()
                         Button {
-                            print("add new reminder")
                             showCreateReminderSheet = true
                         } label: {
                             Text("Add reminder")
@@ -156,7 +161,7 @@ struct HabitView: View {
                 Task {
                     let movie = try? await selectedVideo.loadTransferable(type: Movie.self)
                     if let movie {
-                        videoURL = movie.url
+                        videoURL = URL(string: movie.url.lastPathComponent)
                     } else {
                         print("unsuccessful")
                     }
@@ -184,11 +189,10 @@ struct HabitView: View {
 struct Movie: Transferable {
     let url: URL
     static var transferRepresentation: some TransferRepresentation {
-        print("got here")
         return FileRepresentation(contentType: .movie) { (movie: Movie) in
             return SentTransferredFile(movie.url)
         } importing: { received in
-            let copy = FileManager.default.temporaryDirectory
+            let copy = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
                 .appendingPathComponent(UUID().uuidString)
                 .appendingPathExtension(received.file.pathExtension)
             try FileManager.default.copyItem(at: received.file, to: copy)
