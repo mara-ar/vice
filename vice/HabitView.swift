@@ -8,7 +8,10 @@ struct HabitView: View {
     @Environment(\.dismiss) private var dismiss
 
     var originalHabit: Habit?
-    var creatingNewHabit: Bool
+    // var creatingNewHabit: Bool
+    var isCreatingNewHabit: Bool {
+        originalHabit == nil
+    }
 
     @State private var habitName: String = ""
     @State private var selectedVideo: PhotosPickerItem? = nil
@@ -18,10 +21,10 @@ struct HabitView: View {
     @State private var showCreateReminderSheet: Bool = false
 
     init(
-        creatingNewHabit: Bool,
+        // creatingNewHabit: Bool,
         originalHabit: Habit? = nil
     ) {
-        self.creatingNewHabit = creatingNewHabit
+        // self.creatingNewHabit = creatingNewHabit
         self.originalHabit = originalHabit
         if let unwrappedOriginalHabit = originalHabit {
             self._habitName = State(initialValue: unwrappedOriginalHabit.habit)
@@ -111,8 +114,9 @@ struct HabitView: View {
                             id: UUID(), habit: habitName, motivation: videoURL, reminders: reminders
                         )
 
-                        _ =
-                            creatingNewHabit
+                        _  // creatingNewHabit
+                        =
+                            isCreatingNewHabit
                             ? Task {
                                 do {
                                     modelContext.insert(habit)
@@ -127,13 +131,14 @@ struct HabitView: View {
                                     originalHabit.habit = habitName
                                     originalHabit.motivation = videoURL
                                     originalHabit.reminders = reminders
+                                    try modelContext.save()
                                     dismiss()
                                 }
                             }
 
                     }
                 } label: {
-                    creatingNewHabit
+                    isCreatingNewHabit
                         ? Text("Create habit")
                             .bold()
                             .foregroundStyle(.green)
