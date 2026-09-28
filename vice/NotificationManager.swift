@@ -23,13 +23,9 @@ class NotificationManager {
     func scheduleNotification(title: String, body: String, reminder: Reminder) {
         let content = UNMutableNotificationContent()
         content.title = title
-        content.body = "This is the body"
+        content.body = body
         content.sound = .default
 
-        // time
-        // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-
-        // calendar
         var dateComponents = DateComponents()
         dateComponents.hour = reminder.hour
         dateComponents.minute = reminder.minute
@@ -40,6 +36,7 @@ class NotificationManager {
             content: content,
             trigger: trigger
         )
+
         UNUserNotificationCenter.current().add(request)
     }
 }
