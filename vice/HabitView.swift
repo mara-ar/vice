@@ -2,6 +2,7 @@ import AVKit
 import PhotosUI
 import SwiftData
 import SwiftUI
+import UserNotifications
 
 struct HabitView: View {
     @Environment(\.modelContext) private var modelContext
@@ -120,6 +121,11 @@ struct HabitView: View {
                             isCreatingNewHabit
                             ? Task {
                                 do {
+                                    reminders.forEach { r in
+                                        NotificationManager.instance.scheduleNotification(
+                                            title: "the notification title",
+                                            body: "schedule notification body", reminder: r)
+                                    }
                                     modelContext.insert(habit)
                                     try modelContext.save()
                                     dismiss()
@@ -175,6 +181,11 @@ struct HabitView: View {
     }
 
     func deleteItem(at offsets: IndexSet) {
+        guard let index = offsets.first else { return }
+
+        let habit = reminders[index]
+
+        NotificationManager.instance.deleteNotification(id: habit.id)
         reminders.remove(atOffsets: offsets)
     }
 

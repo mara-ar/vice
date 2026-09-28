@@ -54,6 +54,9 @@ struct ContentView: View {
         .sheet(item: $openHabit) { habit in
             HabitView(originalHabit: habit)
         }
+        .task {
+            NotificationManager.instance.requestAuthorization()
+        }
     }
 
     func deleteItem(at offsets: IndexSet) {

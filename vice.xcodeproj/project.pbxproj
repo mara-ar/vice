@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AD79283C188702620942C75A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2770199050779A1D2124456B /* NotificationManager.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		2770199050779A1D2124456B /* NotificationManager.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		EF98EBF530637FD9001AB98A /* vice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -32,6 +37,7 @@
 		B10735F3D46711E20FAD45B5 /* vice */ = {
 			isa = PBXGroup;
 			children = (
+				2770199050779A1D2124456B /* NotificationManager.swift */,
 			);
 			name = vice;
 			path = vice;
@@ -128,6 +134,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD79283C188702620942C75A /* NotificationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
