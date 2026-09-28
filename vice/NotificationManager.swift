@@ -18,7 +18,6 @@ class NotificationManager {
         let center = UNUserNotificationCenter.current()
 
         center.removePendingNotificationRequests(withIdentifiers: [id.uuidString])
-        center.removeDeliveredNotifications(withIdentifiers: [id.uuidString])
     }
 
     func scheduleNotification(title: String, body: String, reminder: Reminder) {
