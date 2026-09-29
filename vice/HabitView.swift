@@ -21,6 +21,7 @@ struct HabitView: View {
     @State private var reminders: [Reminder] = []
     @State private var createReminder: Reminder? = nil
     @State private var showCreateReminderSheet: Bool = false
+    @State private var showPreview: Bool = false
 
     init(
         originalHabit: Habit? = nil
@@ -81,6 +82,15 @@ struct HabitView: View {
                         Spacer()
                         PhotosPicker(selection: $selectedVideo, matching: .videos) {
                             Text("Choose motivation")
+                        }
+                    }
+                } footer: {
+                    Button {
+                        showPreview = true
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Preview")
                         }
                     }
                 }
@@ -203,6 +213,11 @@ struct HabitView: View {
         .sheet(isPresented: $showCreateReminderSheet) {
             CreateReminderView(reminders: $reminders, isPresenting: $showCreateReminderSheet)
                 .presentationDetents([.medium])
+        }
+        .fullScreenCover(isPresented: $showPreview) {
+            if let videoURL {
+                PreviewMotivationView(videoURL: videoURL)
+            }
         }
     }
 
