@@ -14,6 +14,26 @@ class NotificationManager {
         }
     }
 
+    func updateNotification(reminder: Reminder, isActive: Bool) {
+        let center = UNUserNotificationCenter.current()
+        center.getPendingNotificationRequests {
+            allNotificationRequests in
+            let request = allNotificationRequests.contains {
+                $0.identifier == reminder.id.uuidString
+            }
+            if request {
+                if !isActive {
+                    self.deleteNotification(id: reminder.id)
+                }
+            } else {
+                if isActive {
+                    self.scheduleNotification(
+                        title: "Updated", body: "updated body", reminder: reminder)
+                }
+            }
+        }
+    }
+
     func deleteNotification(id: UUID) {
         let center = UNUserNotificationCenter.current()
 

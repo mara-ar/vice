@@ -122,9 +122,11 @@ struct HabitView: View {
                             ? Task {
                                 do {
                                     reminders.forEach { r in
-                                        NotificationManager.instance.scheduleNotification(
-                                            title: "the notification title",
-                                            body: "schedule notification body", reminder: r)
+                                        if r.isActive {
+                                            NotificationManager.instance.scheduleNotification(
+                                                title: "the notification title",
+                                                body: "schedule notification body", reminder: r)
+                                        }
                                     }
                                     modelContext.insert(habit)
                                     try modelContext.save()
@@ -138,6 +140,12 @@ struct HabitView: View {
                                     originalHabit.habit = habitName
                                     originalHabit.motivation = videoURL
                                     originalHabit.reminders = reminders
+
+                                    reminders.forEach { r in
+                                        NotificationManager.instance.updateNotification(
+                                            reminder: r, isActive: r.isActive)
+                                    }
+
                                     try modelContext.save()
                                     dismiss()
                                 }
