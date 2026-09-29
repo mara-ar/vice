@@ -14,6 +14,8 @@ struct HabitView: View {
     }
 
     @State private var habitName: String = ""
+    @State private var notification: Notification = Notification(
+        notificationHeading: "", notificationContent: "")
     @State private var selectedVideo: PhotosPickerItem? = nil
     @State private var videoURL: URL? = nil
     @State private var reminders: [Reminder] = []
@@ -38,7 +40,14 @@ struct HabitView: View {
                     TextField("Enter habit", text: $habitName)
                 } header: {
                     Text("Habit")
-                        .padding(.top, 10)
+                        .padding(.top, 30)
+                }
+
+                Section {
+                    TextField("Enter notification heading", text: $notification.notificationHeading)
+                    TextField("Enter notification content", text: $notification.notificationContent)
+                } header: {
+                    Text("Notification")
                 }
 
                 Section {
@@ -54,10 +63,17 @@ struct HabitView: View {
                         .frame(height: 200)
                     } else {
                         ContentUnavailableView {
-                            Label("No video", systemImage: "video")
+                            Image(systemName: "video")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50)
+                                .padding()
+                                .bold()
                         } description: {
                             Text("Select a video to remind yourself of your why")
+                                .fixedSize(horizontal: false, vertical: true)
                         }
+                        .frame(height: 150)
                     }
                 } header: {
                     HStack {
@@ -72,10 +88,17 @@ struct HabitView: View {
                 Section {
                     if reminders.isEmpty {
                         ContentUnavailableView {
-                            Label("No reminders", systemImage: "alarm")
+                            Image(systemName: "alarm")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50)
+                                .padding()
+                                .bold()
                         } description: {
                             Text("Add a time to remind yourself of your motivation to quit.")
+                                .fixedSize(horizontal: false, vertical: true)
                         }
+                        .frame(height: 150)
                     } else {
                         List {
                             ForEach($reminders) { $r in
@@ -109,8 +132,7 @@ struct HabitView: View {
                     }
                 }
             }
-
-            ZStack {
+            .overlay(alignment: .topTrailing) {
                 Button {
                     if let videoURL {
                         let habit = Habit(
@@ -153,21 +175,17 @@ struct HabitView: View {
 
                     }
                 } label: {
-                    isCreatingNewHabit
-                        ? Text("Create habit")
-                            .bold()
-                            .foregroundStyle(.green)
-                        : Text("Update habit")
-                            .bold()
-                            .foregroundStyle(.green)
+                    Image(systemName: "checkmark")
+                        .bold()
+                        .foregroundStyle(.white)
+                        .padding(10)
+                        .background(
+                            Circle()
+                                .fill(.green)
+                                .shadow(color: .green, radius: 5)
+                        )
                 }
-                .buttonStyle(.plain)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 20)
-                .background(
-                    Rectangle()
-                        .fill(.white)
-                )
+                .padding()
             }
         }
         .onChange(of: selectedVideo) {

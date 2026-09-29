@@ -17,6 +17,19 @@ class Reminder: Identifiable {
 }
 
 @Model
+class Notification: Identifiable {
+    var id: UUID
+    var notificationHeading: String
+    var notificationContent: String
+
+    init(id: UUID = UUID(), notificationHeading: String, notificationContent: String) {
+        self.id = id
+        self.notificationHeading = notificationHeading
+        self.notificationContent = notificationContent
+    }
+}
+
+@Model
 class Habit: Identifiable {
     var id: UUID
     var habit: String
