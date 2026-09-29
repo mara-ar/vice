@@ -62,6 +62,9 @@ struct ContentView: View {
     func deleteItem(at offsets: IndexSet) {
         for index in offsets {
             let item = allHabits[index]
+            item.reminders.forEach { r in
+                NotificationManager.instance.deleteNotification(id: r.id)
+            }
             modelContext.delete(item)
             try? modelContext.save()
         }
