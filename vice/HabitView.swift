@@ -146,8 +146,8 @@ struct HabitView: View {
                                     reminders.forEach { r in
                                         if r.isActive {
                                             NotificationManager.instance.scheduleNotification(
-                                                title: "the notification title",
-                                                body: "schedule notification body", reminder: r)
+                                                title: notification.notificationHeading,
+                                                body: notification.notificationContent, reminder: r)
                                         }
                                     }
                                     modelContext.insert(habit)
