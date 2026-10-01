@@ -1,7 +1,7 @@
 import AVKit
 import SwiftUI
 
-struct PreviewMotivationView: View {
+struct MotivationView: View {
     @Environment(\.dismiss) var dismiss
     @State private var player: AVPlayer? = nil
 
@@ -19,8 +19,7 @@ struct PreviewMotivationView: View {
                 Image(systemName: "xmark")
                     .foregroundStyle(.black)
                     .padding()
-                    .background(Color.white.opacity(0.5), in: Circle())
-                    .shadow(color: .white, radius: 10)
+                    .background(Color.white, in: Circle())
             }
             .padding()
         }

@@ -216,7 +216,7 @@ struct HabitView: View {
         }
         .fullScreenCover(isPresented: $showPreview) {
             if let videoURL {
-                PreviewMotivationView(videoURL: videoURL)
+                MotivationView(videoURL: videoURL)
             }
         }
     }
