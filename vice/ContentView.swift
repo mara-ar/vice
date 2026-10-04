@@ -13,7 +13,8 @@ struct ContentView: View {
     @Query() var allHabits: [Habit]
     @State private var presentCreateHabitSheet: Bool = false
     @State private var openHabit: Habit? = nil
-    @StateObject private var router: Router = Router()
+    // @StateObject private var router: Router = Router()
+    @EnvironmentObject private var router: Router
 
     var body: some View {
         NavigationStack(path: $router.path) {
@@ -65,7 +66,6 @@ struct ContentView: View {
                 }
             }
         }
-        .environmentObject(router)
     }
 
     func deleteItem(at offsets: IndexSet) {

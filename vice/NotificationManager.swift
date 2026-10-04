@@ -14,7 +14,7 @@ class NotificationManager {
         }
     }
 
-    func updateNotification(reminder: Reminder, isActive: Bool) {
+    func updateNotification(reminder: Reminder, isActive: Bool, motivationURL: URL) {
         let center = UNUserNotificationCenter.current()
         center.getPendingNotificationRequests {
             allNotificationRequests in
@@ -28,7 +28,8 @@ class NotificationManager {
             } else {
                 if isActive {
                     self.scheduleNotification(
-                        title: "Updated", body: "updated body", reminder: reminder)
+                        title: "Updated", body: "updated body", reminder: reminder,
+                        motivationURL: motivationURL)
                 }
             }
         }
@@ -40,11 +41,14 @@ class NotificationManager {
         center.removePendingNotificationRequests(withIdentifiers: [id.uuidString])
     }
 
-    func scheduleNotification(title: String, body: String, reminder: Reminder) {
+    func scheduleNotification(title: String, body: String, reminder: Reminder, motivationURL: URL) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
+        content.userInfo = [
+            "motivationLink": motivationURL.absoluteString
+        ]
 
         var dateComponents = DateComponents()
         dateComponents.hour = reminder.hour

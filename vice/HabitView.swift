@@ -157,7 +157,8 @@ struct HabitView: View {
                                         if r.isActive {
                                             NotificationManager.instance.scheduleNotification(
                                                 title: notification.notificationHeading,
-                                                body: notification.notificationContent, reminder: r)
+                                                body: notification.notificationContent, reminder: r,
+                                                motivationURL: habit.motivation)
                                         }
                                     }
                                     modelContext.insert(habit)
@@ -175,7 +176,8 @@ struct HabitView: View {
 
                                     reminders.forEach { r in
                                         NotificationManager.instance.updateNotification(
-                                            reminder: r, isActive: r.isActive)
+                                            reminder: r, isActive: r.isActive,
+                                            motivationURL: habit.motivation)
                                     }
 
                                     try modelContext.save()
