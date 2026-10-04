@@ -49,13 +49,16 @@ class AppData: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate
     func userNotificationCenter(
         _ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse
     ) async {
-        if let motivationLink = response.notification.request.content.userInfo["motivationLink"]
-            as? String
-        {
-            if let motivationURL = URL(string: motivationLink) {
-                if router.path.last != .motivation(url: motivationURL) {
-                    router.path = []
-                    router.path.append(.motivation(url: motivationURL))
+        DispatchQueue.main.async {
+            if let motivationLink = response.notification.request.content.userInfo["motivationLink"]
+                as? String
+            {
+                if let motivationURL = URL(string: motivationLink) {
+                    SheetManager.shared.dismissAllSheets()
+                    if self.router.path.last != .motivation(url: motivationURL) {
+                        self.router.path = []
+                        self.router.path.append(.motivation(url: motivationURL))
+                    }
                 }
             }
         }

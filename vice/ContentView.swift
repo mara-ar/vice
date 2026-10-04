@@ -11,8 +11,9 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query() var allHabits: [Habit]
-    @State private var presentCreateHabitSheet: Bool = false
-    @State private var openHabit: Habit? = nil
+    @State private var sheetManager = SheetManager.shared
+    // @State private var presentCreateHabitSheet: Bool = false
+    // @State private var openHabit: Habit? = nil
     // @StateObject private var router: Router = Router()
     @EnvironmentObject private var router: Router
 
@@ -21,7 +22,7 @@ struct ContentView: View {
             List {
                 ForEach(allHabits, id: \.id) { habit in
                     Button {
-                        openHabit = habit
+                        sheetManager.openHabitSheet = habit
                     } label: {
                         HabitCardView(habit: habit)
                     }
@@ -33,7 +34,7 @@ struct ContentView: View {
             .overlay(alignment: .bottomTrailing) {
                 Button {
                     print("create new habit")
-                    presentCreateHabitSheet = true
+                    sheetManager.createHabitSheet = true
                 } label: {
                     Image(systemName: "plus")
                         .resizable()
@@ -49,10 +50,10 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .sheet(isPresented: $presentCreateHabitSheet) {
+            .sheet(isPresented: $sheetManager.createHabitSheet) {
                 HabitView()
             }
-            .sheet(item: $openHabit) { habit in
+            .sheet(item: $sheetManager.openHabitSheet) { habit in
                 HabitView(originalHabit: habit)
             }
             .task {
