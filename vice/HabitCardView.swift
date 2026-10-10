@@ -16,6 +16,7 @@ struct HabitCardView: View {
             Text(habit.habit)
                 .foregroundStyle(.black)
                 .padding(1)
+                .font(.custom("IBMPlexMono-Regular", size: 17))
             Spacer()
             Button {
                 router.path.append(.motivation(url: habit.motivation))

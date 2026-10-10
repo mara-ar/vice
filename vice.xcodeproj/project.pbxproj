@@ -19,9 +19,22 @@
 		EF98EBF530637FD9001AB98A /* vice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EF6450A2307ABCA600D792C6 /* Exceptions for "vice" folder in "vice" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = EF98EBF430637FD9001AB98A /* vice */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EF98EBF730637FD9001AB98A /* vice */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EF6450A2307ABCA600D792C6 /* Exceptions for "vice" folder in "vice" target */,
+			);
 			path = vice;
 			sourceTree = "<group>";
 		};
@@ -279,6 +292,7 @@
 				DEVELOPMENT_TEAM = K89D3XB9AF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = vice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -311,6 +325,7 @@
 				DEVELOPMENT_TEAM = K89D3XB9AF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = vice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
