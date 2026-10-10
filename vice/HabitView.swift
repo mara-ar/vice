@@ -33,10 +33,10 @@ struct HabitView: View {
             self._habitName = State(initialValue: unwrappedOriginalHabit.habit)
             self._videoURL = State(initialValue: unwrappedOriginalHabit.motivation)
             self._reminders = State(initialValue: unwrappedOriginalHabit.reminders)
-             self._notificationHeading = State(
-                 initialValue: unwrappedOriginalHabit.notificationHeading)
-             self._notificationContent = State(
-                 initialValue: unwrappedOriginalHabit.notificationContent)
+            self._notificationHeading = State(
+                initialValue: unwrappedOriginalHabit.notificationHeading)
+            self._notificationContent = State(
+                initialValue: unwrappedOriginalHabit.notificationContent)
         }
     }
 
@@ -45,18 +45,25 @@ struct HabitView: View {
             Form {
                 Section {
                     TextField("Enter habit", text: $habitName)
+                        .font(.appFont(.body))
                 } header: {
                     Text("Habit")
                         .padding(.top, 30)
+                        .font(.appFont(.headline))
                 }
 
                 Section {
                     TextField(
-                        "Enter notification heading", text: $notificationHeading)
+                        "Enter notification heading", text: $notificationHeading
+                    )
+                    .font(.appFont(.body))
                     TextField(
-                        "Enter notification content", text: $notificationContent)
+                        "Enter notification content", text: $notificationContent
+                    )
+                    .font(.appFont(.body))
                 } header: {
                     Text("Notification")
+                        .font(.appFont(.headline))
                 }
 
                 Section {
@@ -81,15 +88,18 @@ struct HabitView: View {
                         } description: {
                             Text("Select a video to remind yourself of your why")
                                 .fixedSize(horizontal: false, vertical: true)
+                                .font(.appFont(.subheadline))
                         }
                         .frame(height: 150)
                     }
                 } header: {
                     HStack {
                         Text("Motivation")
+                            .font(.appFont(.headline))
                         Spacer()
                         PhotosPicker(selection: $selectedVideo, matching: .videos) {
                             Text("Choose motivation")
+                                .font(.appFont(.subheadline))
                         }
                     }
                 } footer: {
@@ -99,6 +109,7 @@ struct HabitView: View {
                         HStack {
                             Spacer()
                             Text("Preview")
+                                .font(.appFont(.subheadline))
                         }
                     }
                 }
@@ -115,6 +126,7 @@ struct HabitView: View {
                         } description: {
                             Text("Add a time to remind yourself of your motivation to quit.")
                                 .fixedSize(horizontal: false, vertical: true)
+                                .font(.appFont(.subheadline))
                         }
                         .frame(height: 150)
                     } else {
@@ -124,6 +136,7 @@ struct HabitView: View {
                                     Text(
                                         "\(parseTimeComponent(value: r.hour)):\(parseTimeComponent(value: r.minute))"
                                     )
+                                    .font(.appFont(.body))
                                     Spacer()
                                     r.isActive
                                         ? Image(systemName: "circle.fill")
@@ -140,11 +153,13 @@ struct HabitView: View {
                 } header: {
                     HStack {
                         Text("Reminders")
+                            .font(.appFont(.headline))
                         Spacer()
                         Button {
                             showCreateReminderSheet = true
                         } label: {
                             Text("Add reminder")
+                                .font(.appFont(.subheadline))
                         }
                         .buttonStyle(.borderless)
                     }

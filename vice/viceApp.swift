@@ -64,3 +64,51 @@ class AppData: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate
         }
     }
 }
+
+extension Font {
+    static func appFont(_ style: Font.TextStyle) -> Font {
+        let fontName: String
+        let fontSize: CGFloat
+
+        switch style {
+        case .largeTitle:
+            fontName = "IBMPlexMono-Bold"
+            fontSize = 34
+        case .title:
+            fontName = "IBMPlexMono-Bold"
+            fontSize = 28
+        case .title2:
+            fontName = "IBMPlexMono-SemiBold"
+            fontSize = 22
+        case .title3:
+            fontName = "IBMPlexMono-SemiBold"
+            fontSize = 20
+        case .headline:
+            fontName = "IBMPlexMono-SemiBold"
+            fontSize = 17
+        case .subheadline:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 15
+        case .body:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 17
+        case .callout:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 16
+        case .footnote:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 13
+        case .caption:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 12
+        case .caption2:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 11
+        @unknown default:
+            fontName = "IBMPlexMono-Regular"
+            fontSize = 17
+        }
+
+        return Font.custom(fontName, size: fontSize, relativeTo: style)
+    }
+}
