@@ -41,212 +41,272 @@ struct HabitView: View {
     }
 
     var body: some View {
-        VStack {
-            Form {
-                Section {
-                    TextField("Enter habit", text: $habitName)
+        NavigationStack {
+            VStack {
+                Form {
+                    Section {
+                        TextField("Enter habit", text: $habitName)
+                            .font(.appFont(.body))
+                    } header: {
+                        Text("Habit")
+                            .padding(.top, 20)
+                            .font(.appFont(.headline))
+                    }
+
+                    Section {
+                        TextField(
+                            "Enter notification heading", text: $notificationHeading
+                        )
                         .font(.appFont(.body))
-                } header: {
-                    Text("Habit")
-                        .padding(.top, 30)
-                        .font(.appFont(.headline))
-                }
-
-                Section {
-                    TextField(
-                        "Enter notification heading", text: $notificationHeading
-                    )
-                    .font(.appFont(.body))
-                    TextField(
-                        "Enter notification content", text: $notificationContent
-                    )
-                    .font(.appFont(.body))
-                } header: {
-                    Text("Notification")
-                        .font(.appFont(.headline))
-                }
-
-                Section {
-                    if let videoURL {
-                        VideoPlayer(
-                            player: AVPlayer(
-                                url: URL(
-                                    string:
-                                        "\(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)\(videoURL.absoluteString)"
-                                )!)
+                        TextField(
+                            "Enter notification content", text: $notificationContent
                         )
-                        .allowsHitTesting(false)
-                        .frame(height: 200)
-                    } else {
-                        ContentUnavailableView {
-                            Image(systemName: "video")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50)
-                                .padding()
-                                .bold()
-                        } description: {
-                            Text("Select a video to remind yourself of your why")
-                                .fixedSize(horizontal: false, vertical: true)
-                                .font(.appFont(.subheadline))
-                        }
-                        .frame(height: 150)
-                    }
-                } header: {
-                    HStack {
-                        Text("Motivation")
+                        .font(.appFont(.body))
+                    } header: {
+                        Text("Notification")
                             .font(.appFont(.headline))
-                        Spacer()
-                        PhotosPicker(selection: $selectedVideo, matching: .videos) {
-                            Text("Choose motivation")
-                                .font(.appFont(.subheadline))
-                        }
                     }
-                } footer: {
-                    Button {
-                        showPreview = true
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text("Preview")
-                                .font(.appFont(.subheadline))
-                        }
-                    }
-                }
 
-                Section {
-                    if reminders.isEmpty {
-                        ContentUnavailableView {
-                            Image(systemName: "alarm")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50)
-                                .padding()
-                                .bold()
-                        } description: {
-                            Text("Add a time to remind yourself of your motivation to quit.")
-                                .fixedSize(horizontal: false, vertical: true)
-                                .font(.appFont(.subheadline))
-                        }
-                        .frame(height: 150)
-                    } else {
-                        List {
-                            ForEach($reminders) { $r in
-                                HStack {
-                                    Text(
-                                        "\(parseTimeComponent(value: r.hour)):\(parseTimeComponent(value: r.minute))"
-                                    )
-                                    .font(.appFont(.body))
-                                    Spacer()
-                                    r.isActive
-                                        ? Image(systemName: "circle.fill")
-                                        : Image(systemName: "circle")
-                                }
-                                .onTapGesture {
-                                    r.isActive.toggle()
-                                }
-
+                    Section {
+                        if let videoURL {
+                            VideoPlayer(
+                                player: AVPlayer(
+                                    url: URL(
+                                        string:
+                                            "\(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!)\(videoURL.absoluteString)"
+                                    )!)
+                            )
+                            .allowsHitTesting(false)
+                            .frame(height: 200)
+                        } else {
+                            ContentUnavailableView {
+                                Image(systemName: "video")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50)
+                                    .padding()
+                                    .bold()
+                            } description: {
+                                Text("Select a video to remind yourself of your why")
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.appFont(.subheadline))
                             }
-                            .onDelete(perform: deleteItem)
+                            .frame(height: 150)
+                        }
+                    } header: {
+                        HStack {
+                            Text("Motivation")
+                                .font(.appFont(.headline))
+                            Spacer()
+                            PhotosPicker(selection: $selectedVideo, matching: .videos) {
+                                Text("Choose motivation")
+                                    .font(.appFont(.subheadline))
+                            }
+                        }
+                    } footer: {
+                        Button {
+                            showPreview = true
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Preview")
+                                    .font(.appFont(.subheadline))
+                            }
                         }
                     }
-                } header: {
-                    HStack {
-                        Text("Reminders")
-                            .font(.appFont(.headline))
-                        Spacer()
-                        Button {
-                            showCreateReminderSheet = true
-                        } label: {
-                            Text("Add reminder")
-                                .font(.appFont(.subheadline))
+
+                    Section {
+                        if reminders.isEmpty {
+                            ContentUnavailableView {
+                                Image(systemName: "alarm")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50)
+                                    .padding()
+                                    .bold()
+                            } description: {
+                                Text("Add a time to remind yourself of your motivation to quit.")
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .font(.appFont(.subheadline))
+                            }
+                            .frame(height: 150)
+                        } else {
+                            List {
+                                ForEach($reminders) { $r in
+                                    HStack {
+                                        Text(
+                                            "\(parseTimeComponent(value: r.hour)):\(parseTimeComponent(value: r.minute))"
+                                        )
+                                        .font(.appFont(.body))
+                                        Spacer()
+                                        r.isActive
+                                            ? Image(systemName: "circle.fill")
+                                            : Image(systemName: "circle")
+                                    }
+                                    .onTapGesture {
+                                        r.isActive.toggle()
+                                    }
+
+                                }
+                                .onDelete(perform: deleteItem)
+                            }
                         }
-                        .buttonStyle(.borderless)
+                    } header: {
+                        HStack {
+                            Text("Reminders")
+                                .font(.appFont(.headline))
+                            Spacer()
+                            Button {
+                                showCreateReminderSheet = true
+                            } label: {
+                                Text("Add reminder")
+                                    .font(.appFont(.subheadline))
+                            }
+                            .buttonStyle(.borderless)
+                        }
                     }
                 }
-            }
-            .overlay(alignment: .topTrailing) {
-                Button {
-                    if let videoURL {
-                        let habit = Habit(
-                            id: UUID(), habit: habitName, motivation: videoURL,
-                            reminders:
-                                reminders, notificationHeading: notificationHeading,
-                            notificationContent: notificationContent
-                        )
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            if let videoURL {
+                                let habit = Habit(
+                                    id: UUID(), habit: habitName, motivation: videoURL,
+                                    reminders:
+                                        reminders, notificationHeading: notificationHeading,
+                                    notificationContent: notificationContent
+                                )
 
-                        _ =
-                            isCreatingNewHabit
-                            ? Task {
-                                do {
-                                    modelContext.insert(habit)
-                                    try modelContext.save()
-                                    reminders.forEach { r in
-                                        if r.isActive {
-                                            NotificationManager.instance.scheduleNotification(
-                                                title: notificationHeading,
-                                                body: notificationContent, reminder: r,
-                                                motivationURL: habit.motivation)
+                                _ =
+                                    isCreatingNewHabit
+                                    ? Task {
+                                        do {
+                                            modelContext.insert(habit)
+                                            try modelContext.save()
+                                            reminders.forEach { r in
+                                                if r.isActive {
+                                                    NotificationManager.instance
+                                                        .scheduleNotification(
+                                                            title: notificationHeading,
+                                                            body: notificationContent, reminder: r,
+                                                            motivationURL: habit.motivation)
+                                                }
+                                            }
+                                            dismiss()
+                                        } catch {
+                                            print("\(error)")
                                         }
                                     }
-                                    dismiss()
-                                } catch {
-                                    print("\(error)")
-                                }
-                            }
-                            : Task {
-                                if let originalHabit {
-                                    originalHabit.habit = habitName
-                                    originalHabit.motivation = videoURL
-                                    originalHabit.reminders = reminders
-                                    originalHabit.notificationHeading = notificationHeading
-                                    originalHabit.notificationContent = notificationContent
+                                    : Task {
+                                        if let originalHabit {
+                                            originalHabit.habit = habitName
+                                            originalHabit.motivation = videoURL
+                                            originalHabit.reminders = reminders
+                                            originalHabit.notificationHeading = notificationHeading
+                                            originalHabit.notificationContent = notificationContent
 
-                                    reminders.forEach { r in
-                                        NotificationManager.instance.updateNotification(
-                                            reminder: r, isActive: r.isActive,
-                                            motivationURL: habit.motivation)
+                                            reminders.forEach { r in
+                                                NotificationManager.instance.updateNotification(
+                                                    reminder: r, isActive: r.isActive,
+                                                    motivationURL: habit.motivation)
+                                            }
+
+                                            try modelContext.save()
+                                            dismiss()
+                                        }
                                     }
 
-                                    try modelContext.save()
-                                    dismiss()
-                                }
                             }
-
-                    }
-                } label: {
-                    Image(systemName: "checkmark")
-                        .bold()
-                        .foregroundStyle(.white)
-                        .padding(10)
-                        .background(
-                            Circle()
-                                .fill(.green)
-                                .shadow(color: .green, radius: 5)
-                        )
-                }
-                .padding()
-            }
-        }
-        .onChange(of: selectedVideo) {
-            if let selectedVideo {
-                Task {
-                    let movie = try? await selectedVideo.loadTransferable(type: Movie.self)
-                    if let movie {
-                        videoURL = URL(string: movie.url.lastPathComponent)
-                    } else {
-                        print("unsuccessful")
+                        } label: {
+                            Text("Create habit")
+                                .font(.appFont(.headline))
+                                .foregroundStyle(.green)
+                        }
                     }
                 }
+                // .overlay(alignment: .topTrailing) {
+                //     Button {
+                //         if let videoURL {
+                //             let habit = Habit(
+                //                 id: UUID(), habit: habitName, motivation: videoURL,
+                //                 reminders:
+                //                     reminders, notificationHeading: notificationHeading,
+                //                 notificationContent: notificationContent
+                //             )
+                //
+                //             _ =
+                //                 isCreatingNewHabit
+                //                 ? Task {
+                //                     do {
+                //                         modelContext.insert(habit)
+                //                         try modelContext.save()
+                //                         reminders.forEach { r in
+                //                             if r.isActive {
+                //                                 NotificationManager.instance.scheduleNotification(
+                //                                     title: notificationHeading,
+                //                                     body: notificationContent, reminder: r,
+                //                                     motivationURL: habit.motivation)
+                //                             }
+                //                         }
+                //                         dismiss()
+                //                     } catch {
+                //                         print("\(error)")
+                //                     }
+                //                 }
+                //                 : Task {
+                //                     if let originalHabit {
+                //                         originalHabit.habit = habitName
+                //                         originalHabit.motivation = videoURL
+                //                         originalHabit.reminders = reminders
+                //                         originalHabit.notificationHeading = notificationHeading
+                //                         originalHabit.notificationContent = notificationContent
+                //
+                //                         reminders.forEach { r in
+                //                             NotificationManager.instance.updateNotification(
+                //                                 reminder: r, isActive: r.isActive,
+                //                                 motivationURL: habit.motivation)
+                //                         }
+                //
+                //                         try modelContext.save()
+                //                         dismiss()
+                //                     }
+                //                 }
+                //
+                //         }
+                //     } label: {
+                //         Image(systemName: "checkmark")
+                //             .bold()
+                //             .foregroundStyle(.white)
+                //             .padding(10)
+                //             .background(
+                //                 Circle()
+                //                     .fill(.green)
+                //                     .shadow(color: .green, radius: 5)
+                //             )
+                //     }
+                //     .padding()
+                // }
             }
-        }
-        .sheet(isPresented: $showCreateReminderSheet) {
-            CreateReminderView(reminders: $reminders, isPresenting: $showCreateReminderSheet)
-                .presentationDetents([.medium])
-        }
-        .fullScreenCover(isPresented: $showPreview) {
-            if let videoURL {
-                MotivationView(videoURL: videoURL)
+            .onChange(of: selectedVideo) {
+                if let selectedVideo {
+                    Task {
+                        let movie = try? await selectedVideo.loadTransferable(type: Movie.self)
+                        if let movie {
+                            videoURL = URL(string: movie.url.lastPathComponent)
+                        } else {
+                            print("unsuccessful")
+                        }
+                    }
+                }
+            }
+            .sheet(isPresented: $showCreateReminderSheet) {
+                CreateReminderView(reminders: $reminders, isPresenting: $showCreateReminderSheet)
+                    .presentationDetents([.medium])
+            }
+            .fullScreenCover(isPresented: $showPreview) {
+                if let videoURL {
+                    MotivationView(videoURL: videoURL)
+                }
             }
         }
     }
