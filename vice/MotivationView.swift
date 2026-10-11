@@ -17,11 +17,15 @@ struct MotivationView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .foregroundStyle(.black)
-                    .padding()
-                    .background(Color.white, in: Circle())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 17)
+                    .padding(5)
             }
-            .padding()
+            .buttonBorderShape(.circle)
+            .buttonStyle(.glass)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10)
         }
         .task {
             player = AVPlayer(

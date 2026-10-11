@@ -51,10 +51,14 @@ struct ContentView: View {
                 .padding()
             }
             .sheet(isPresented: $sheetManager.createHabitSheet) {
-                HabitView()
+                NavigationStack {
+                    HabitView()
+                }
             }
             .sheet(item: $sheetManager.openHabitSheet) { habit in
-                HabitView(originalHabit: habit)
+                NavigationStack {
+                    HabitView(originalHabit: habit)
+                }
             }
             .task {
                 NotificationManager.instance.requestAuthorization()
@@ -67,6 +71,7 @@ struct ContentView: View {
                 }
             }
         }
+        .toolbarBackground(.hidden, for: .navigationBar)
     }
 
     func deleteItem(at offsets: IndexSet) {
