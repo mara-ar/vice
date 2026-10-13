@@ -10,17 +10,19 @@
 		2C58DD6677C3C4AF8D05FA2E /* MotivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4CB9274881DDFE1047A54C /* MotivationView.swift */; };
 		376D783EFA172CF07CDB8AED /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA122A3075D9805004241F10 /* Router.swift */; };
 		AD79283C188702620942C75A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2770199050779A1D2124456B /* NotificationManager.swift */; };
+		F3B78D4EC4888185992268E3 /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63997035C6BA517DBA610C15 /* CheckInView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2770199050779A1D2124456B /* NotificationManager.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		63997035C6BA517DBA610C15 /* CheckInView.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		6B4CB9274881DDFE1047A54C /* MotivationView.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = MotivationView.swift; sourceTree = "<group>"; };
 		DA122A3075D9805004241F10 /* Router.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		EF98EBF530637FD9001AB98A /* vice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		EF6450A2307ABCA600D792C6 /* Exceptions for "vice" folder in "vice" target */ = {
+		EF6450A2307ABCA600D792C6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -33,7 +35,7 @@
 		EF98EBF730637FD9001AB98A /* vice */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				EF6450A2307ABCA600D792C6 /* Exceptions for "vice" folder in "vice" target */,
+				EF6450A2307ABCA600D792C6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
 			);
 			path = vice;
 			sourceTree = "<group>";
@@ -57,6 +59,7 @@
 				2770199050779A1D2124456B /* NotificationManager.swift */,
 				6B4CB9274881DDFE1047A54C /* MotivationView.swift */,
 				DA122A3075D9805004241F10 /* Router.swift */,
+				63997035C6BA517DBA610C15 /* CheckInView.swift */,
 			);
 			path = vice;
 			sourceTree = "<group>";
@@ -155,6 +158,7 @@
 				AD79283C188702620942C75A /* NotificationManager.swift in Sources */,
 				2C58DD6677C3C4AF8D05FA2E /* MotivationView.swift in Sources */,
 				376D783EFA172CF07CDB8AED /* Router.swift in Sources */,
+				F3B78D4EC4888185992268E3 /* CheckInView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

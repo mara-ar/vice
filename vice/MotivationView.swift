@@ -4,8 +4,15 @@ import SwiftUI
 struct MotivationView: View {
     @Environment(\.dismiss) var dismiss
     @State private var player: AVPlayer? = nil
+    @State private var sheetManager: SheetManager = SheetManager.shared
 
     let videoURL: URL
+    let isPreview: Bool
+
+    init(videoURL: URL, isPreview: Bool = false) {
+        self.videoURL = videoURL
+        self.isPreview = isPreview
+    }
 
     var body: some View {
         VideoPlayer(
@@ -26,6 +33,21 @@ struct MotivationView: View {
             .buttonStyle(.glass)
             .foregroundStyle(.white)
             .padding(.horizontal, 10)
+        }
+        .overlay(alignment: .bottom) {
+            if isPreview == false {
+                Button {
+                    sheetManager.checkInSheet = true
+                } label: {
+                    Text("Check in")
+                        .font(.appFont(.headline))
+                }
+                .buttonStyle(.glass)
+            }
+        }
+        .sheet(isPresented: $sheetManager.checkInSheet) {
+            CheckInView()
+                .presentationDetents([.medium])
         }
         .task {
             player = AVPlayer(
