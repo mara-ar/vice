@@ -8,6 +8,7 @@ enum Status {
 
 struct CheckInView: View {
     @State private var status: Status = .neutral
+    @State private var sheetManager: SheetManager = SheetManager.shared
     var body: some View {
         VStack {
             Text("Check in")
@@ -45,6 +46,25 @@ struct CheckInView: View {
                         .stroke(.green, style: .init(lineWidth: status == .resisted ? 3 : 0))
                 )
             }
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .overlay(alignment: .topTrailing) {
+            Button {
+                print("confirm check in and dismiss sheet")
+                sheetManager.checkInSheet = false
+            } label: {
+                Image(systemName: "checkmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20)
+            }
+            .padding(12)
+            .buttonStyle(.plain)
+            .glassEffect(.regular.tint(.gray.opacity(0.15)).interactive(), in: Circle())
+            .contentShape(.circle)
         }
         .padding()
     }
