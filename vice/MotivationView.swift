@@ -48,7 +48,7 @@ struct MotivationView: View {
         .sheet(isPresented: $sheetManager.checkInSheet) {
             CheckInView()
                 .presentationDetents([.medium])
-                .presentationBackground(.white)
+            // .presentationBackground(.gray.opacity(0.5))
         }
         .task {
             player = AVPlayer(

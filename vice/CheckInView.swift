@@ -9,6 +9,8 @@ enum Status {
 struct CheckInView: View {
     @State private var status: Status = .neutral
     @State private var sheetManager: SheetManager = SheetManager.shared
+    @State private var reflection: String = ""
+
     var body: some View {
         VStack {
             Text("Check in")
@@ -47,6 +49,16 @@ struct CheckInView: View {
                 )
             }
 
+            TextField("Enter your reflection here...", text: $reflection, axis: .vertical)
+                .font(.appFont(.callout))
+                .lineLimit(5...)
+                .background(.white)
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(.white)
+                )
+
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -63,7 +75,8 @@ struct CheckInView: View {
             }
             .padding(12)
             .buttonStyle(.plain)
-            .glassEffect(.regular.tint(.gray.opacity(0.15)).interactive(), in: Circle())
+            .foregroundStyle(.white)
+            .glassEffect(.regular.tint(.green.opacity(1)).interactive(), in: Circle())
             .contentShape(.circle)
         }
         .padding()
